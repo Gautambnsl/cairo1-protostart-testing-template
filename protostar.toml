@@ -1,10 +1,12 @@
 [project]
-protostar-version = "0.9.2"
+protostar-version = "0.9.3"
 lib-path = "lib"
-linked-libraries = ["src"]
+linked-libraries = ["src/main1","src/deposit"]
 
 [contracts]
-con = ["src"]
-
+main1 = ["src/main1"]
+main2 = ["src/main2"]
+open = ["src/open"]
+deposit = ["src/deposit"]
 
 

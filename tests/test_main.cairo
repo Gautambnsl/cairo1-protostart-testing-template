@@ -1,40 +1,35 @@
-use src::main::con;
 use result::ResultTrait;
 use array::ArrayTrait;
 use debug::PrintTrait;
-use starknet::ContractAddress;
-use starknet::contract_address_const;
 use traits::Into;
-
-
-
-
-#[test]
-fn test_fib() {
-    let x = con::fib(200,33);
-    assert(x == 233, 'fib(0, 1, 13) == 233');
-}
+use starknet::ContractAddress;
+use starknet::contract_address;
 
 #[test]
-fn test_set(){
-    let class_hash = declare('con').unwrap();
-    let prepare_result = prepare(class_hash, ArrayTrait::new()).unwrap();
-    let prepared_contract = PreparedContract {
-        contract_address: prepare_result.contract_address,
-        class_hash: prepare_result.class_hash,
-        constructor_calldata: prepare_result.constructor_calldata
-    };
-
-
-    let deployed_contract_address = deploy(prepared_contract).unwrap();
-    let mut calldata = ArrayTrait::new();
-    calldata.append(500_u128.into());
-    calldata.append(600_u128.into());
-    calldata.append(700_u128.into());
-    calldata.append(800_u128.into());
-    calldata.append(900_u128.into());
-    calldata.append(1000_u128.into());
-    invoke(deployed_contract_address, 'set', calldata).unwrap();
-    let return_data2 = call(deployed_contract_address, 'get',ArrayTrait::new() ).unwrap();
-    assert(*return_data2.at(1_u32) == 500, *return_data2.at(5_u32)); 
+fn test_Deposit(){
+    //deposit deploy
+        let mut class_hash1 = declare('deposit').unwrap();
+        let mut prepare_result1 = prepare(class_hash1, ArrayTrait::new()).unwrap();
+        let mut prepared_contract1 = PreparedContract {
+            contract_address: prepare_result1.contract_address,
+            class_hash: prepare_result1.class_hash,
+            constructor_calldata: prepare_result1.constructor_calldata
+        };
+        let deposit_contract_address = deploy(prepared_contract1).unwrap();
+        //open deploy
+        let mut class_hash = declare('open').unwrap();
+        let mut prepare_result = prepare(class_hash, ArrayTrait::new()).unwrap();
+        let mut prepared_contract = PreparedContract {
+            contract_address: prepare_result.contract_address,
+            class_hash: prepare_result.class_hash,
+            constructor_calldata: prepare_result.constructor_calldata
+        };
+        let open_contract_address = deploy(prepared_contract).unwrap();
+        //calldata append contractaddress
+        let mut calldata = ArrayTrait::new();
+        calldata.append(deposit_contract_address);   
+        invoke(open_contract_address, 'set', calldata).unwrap();
+        let return_data = call(open_contract_address, 'get',calldata).unwrap();
+        // assert(*return_data.at(0_u32) == 500,'Test Failed');
 }
+
