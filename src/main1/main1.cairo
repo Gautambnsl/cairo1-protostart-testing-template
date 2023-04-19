@@ -113,7 +113,7 @@ impl MarketSerde of serde::Serde::<Market> {
 }
 
 #[contract]
-mod con{
+mod main1{
     use starknet::ContractAddress;
     use super::Market;
     use starknet::get_caller_address;

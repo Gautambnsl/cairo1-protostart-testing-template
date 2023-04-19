@@ -29,11 +29,13 @@ mod open{
     use starknet::ContractAddress;
     use super::IDepositDispatcherTrait;
     use super::IDepositDispatcher;
-    
+
+        #[external]
         fn set(depositAddress: ContractAddress) {
             IDepositDispatcher{contract_address : depositAddress}.setDeposit();
         }
       
+        #[view]
         fn get(depositAddress: ContractAddress) -> u128 {
            let value = IDepositDispatcher{contract_address : depositAddress}.getDeposit();
            return value;

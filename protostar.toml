@@ -1,12 +1,11 @@
 [project]
 protostar-version = "0.9.3"
 lib-path = "lib"
-linked-libraries = ["src/main1","src/deposit"]
+linked-libraries = ["src/main1","src/deposit","src/open","src/main2"]
 
 [contracts]
-main1 = ["src/main1"]
 main2 = ["src/main2"]
+main1 = ["src/main1"]
 open = ["src/open"]
 deposit = ["src/deposit"]
-
 

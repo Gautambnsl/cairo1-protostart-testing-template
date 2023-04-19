@@ -19,14 +19,16 @@ mod deposit{
     struct Storage{
         object : Deposit,
     }
-
+    
+    #[external]
     fn setDeposit(){
         let x = Deposit{
             value : 500_u128,
         };
         object::write(x);
     }
-
+    
+    #[view]
     fn getDeposit() -> u128{
         let x = object::read();
         x.value
