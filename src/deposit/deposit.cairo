@@ -13,67 +13,70 @@ use starknet::contract_address;
 
 #[contract]
 mod deposit{
-   
-    use super::Deposit;
-
     struct Storage{
-        object : Deposit,
+        value : felt252,
     }
     
     #[external]
     fn setDeposit(){
-        let x = Deposit{
-            value : 500_u128,
-        };
-        object::write(x);
+        value::write(5);
     }
     
     #[view]
-    fn getDeposit() -> u128{
-        let x = object::read();
-        x.value
+    fn getDeposit() -> felt252{
+        let x = value::read();
+        return x;
     }
 
-
 }
 
 
 
-#[derive(Copy)]
-struct Deposit{
-value : u128
-}
 
-impl Deposit_StorageAccess of StorageAccess::<Deposit> {
-    fn read(
-        address_domain: u32, base: StorageBaseAddress
-    ) -> SyscallResult::<Deposit> {
-        Result::Ok(
-            Deposit {
-                value: storage_read_syscall(
-                    address_domain, storage_address_from_base_and_offset(base, 0_u8)
-                )?.try_into().unwrap(),
-            }
-        )
-    }
-
-    fn write(
-        address_domain: u32, base: StorageBaseAddress, value: Deposit
-    ) -> SyscallResult::<()> {
-        storage_write_syscall(
-            address_domain,
-            storage_address_from_base_and_offset(base, 0_u8),
-            value.value.into()
-        )
-    }
-}
+// #[derive(Copy, Drop)]
+// struct Deposit{
+// value : u128
+// }
 
 
+// impl Deposit_StorageAccess of StorageAccess::<Deposit> {
+//     fn read(
+//         address_domain: u32, base: StorageBaseAddress
+//     ) -> SyscallResult::<Deposit> {
+//         Result::Ok(
+//             Deposit {
+//                 value: storage_read_syscall(
+//                     address_domain, storage_address_from_base_and_offset(base, 0_u8)
+//                 )?.try_into().unwrap(),
+//             }
+//         )
+//     }
 
-#[abi]
-trait IDeposit {
-    fn getDeposit() -> u128;
+//     fn write(
+//         address_domain: u32, base: StorageBaseAddress, value: Deposit
+//     ) -> SyscallResult::<()> {
+//         storage_write_syscall(
+//             address_domain,
+//             storage_address_from_base_and_offset(base, 0_u8),
+//             value.value.into()
+//         )
+//     }
+// }
 
-    fn setDeposit();
 
-}
+
+
+
+
+// impl DepositSerde of serde::Serde::<Deposit>{
+//     fn serialize(ref serialized: Array::<felt252>, input: Deposit) {
+//            serde::Serde::<u128>::serialize(ref serialized, input.value);
+//     }
+//     fn deserialize(ref serialized: Span::<felt252>) -> Option::<Deposit> {
+//            Option::Some(
+//                Deposit {
+//                    value: serde::Serde::<u128>::deserialize(ref serialized)?,
+//                }
+//            )
+//     }
+// }

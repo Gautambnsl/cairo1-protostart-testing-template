@@ -57,7 +57,7 @@ mod test_contract{
             calldata2.append(x);
             invoke(_open::read(), 'set', calldata1).unwrap();
             let return_data = call(_open::read(), 'get',calldata2).unwrap();
-            // assert()
+            
 
         }
         

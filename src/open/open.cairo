@@ -11,17 +11,11 @@ use option::OptionTrait;
 use starknet::ContractAddress;
 use starknet::contract_address;
 
-
-
 #[abi]
 trait IDeposit {
     fn getDeposit() -> u128;
-    
     fn setDeposit();
-
 }
-
-
 
 #[contract]
 mod open{
@@ -34,7 +28,7 @@ mod open{
         fn set(depositAddress: ContractAddress) {
             IDepositDispatcher{contract_address : depositAddress}.setDeposit();
         }
-      
+
         #[view]
         fn get(depositAddress: ContractAddress) -> u128 {
            let value = IDepositDispatcher{contract_address : depositAddress}.getDeposit();
